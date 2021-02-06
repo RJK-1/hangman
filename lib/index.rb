@@ -1,4 +1,5 @@
 require 'colorize'
+require 'yaml'
 
 class Game
   attr_accessor :word, :moves_left, :used_letters, :correct_letters, :blanked_word
@@ -45,6 +46,18 @@ class Game
     indexes = (0 ... @word.length).find_all { |i| @word[i,1] == "#{letter}" }
     indexes.each { |i| @blanked_word[i] = letter}
   end
+
+  def save_game
+    puts "Saving Game!"
+    yaml = YAML::dump(self)
+    file = File.open('Game.yml', 'w') {|file| file.write  yaml.to_yaml}
+    exit 
+  end
+
+  def load_game
+    data = File.open('Game.yml', 'r') { |f| YAML.load(f) }
+    YAML.load(data)
+  end
 end
 
 class PlayGame
@@ -60,15 +73,8 @@ class PlayGame
     Your remaining moves and incorrect letters 
     will be displayed. 
     HEREDOC
-    puts "Press 1 to start a new game, or 2 to load an existing game"
-    choice = gets.chomp
-    if choice == '1'
-      guess_letter
-    elsif choice == '2'
-      #load game
-    else
-      puts "Invalid Choice"
-    end
+    puts 'To save the game, type \'save\' during any move'.green
+    guess_letter
   end
 
   def guess_letter
@@ -81,6 +87,7 @@ class PlayGame
   end
 
   def verify_letter(letter)
+    letter == "save" ? @game.save_game :
     if @game.used_letters.include?(letter) || @game.correct_letters.include?(letter)
       puts "You have already used this letter!".red
       guess_letter
@@ -113,5 +120,16 @@ class PlayGame
 end
 
 game = Game.new
-playgame = PlayGame.new(game)
-playgame.start_game
+
+puts 'Press 1 to start a new game, or 2 to load an existing game'
+choice = gets.chomp
+if choice == '1'
+  playgame = PlayGame.new(game)
+  playgame.start_game
+elsif choice == '2'
+  game = game.load_game
+  playgame = PlayGame.new(game)
+  playgame.start_game
+else
+  puts "Invalid Choice"
+end

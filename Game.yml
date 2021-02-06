@@ -1,0 +1,13 @@
+--- |
+  --- !ruby/object:Game
+  word: moonscape
+  blanked_word: moons_a__
+  moves_left: 4
+  used_letters:
+  - i
+  correct_letters:
+  - a
+  - o
+  - m
+  - n
+  - s
