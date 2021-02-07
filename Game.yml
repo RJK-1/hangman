@@ -1,13 +1,12 @@
 --- |
   --- !ruby/object:Game
-  word: moonscape
-  blanked_word: moons_a__
-  moves_left: 4
+  word: casein
+  blanked_word: _a_ei_
+  moves_left: 5
   used_letters:
-  - i
+  - o
+  - u
   correct_letters:
   - a
-  - o
-  - m
-  - n
-  - s
+  - i
+  - e

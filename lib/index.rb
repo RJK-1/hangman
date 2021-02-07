@@ -129,6 +129,7 @@ if choice == '1'
 elsif choice == '2'
   game = game.load_game
   playgame = PlayGame.new(game)
+  puts 'Loaded saved game!'.green
   playgame.start_game
 else
   puts "Invalid Choice"
